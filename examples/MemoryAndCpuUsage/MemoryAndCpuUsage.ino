@@ -30,7 +30,7 @@ AudioAnalyzeFFT256       fft256_1;       //xy=304,272
 AudioMixer4              mixer1;         //xy=486,163
 AudioOutputI2S           DAC;           //xy=640,161
 AudioConnection          patchCord1(sine1, envelope2);
-//AudioConnection          patchCord2(sine1, fft256_1); // FFT functions need to be recoded for 256 sample buffers or recode the I2S stuff to 128 samples
+AudioConnection          patchCord2(sine1, fft256_1); // FFT functions need to be recoded for 256 sample buffers or recode the I2S stuff to 128 samples
 AudioConnection          patchCord3(pink1, envelope1);
 AudioConnection          patchCord4(envelope1, 0, mixer1, 0);
 AudioConnection          patchCord5(envelope2, 0, mixer1, 1);
@@ -58,7 +58,7 @@ void setup() {
   // give the audio library some memory.  We'll be able
   // to see how much it actually uses, which can be used
   // to reduce this to the minimum necessary.
-  AudioMemory(50);
+  AudioMemory(5);
 
   // create a simple percussive sound using pink noise
   // and an envelope to shape it.
@@ -159,6 +159,21 @@ void loop() {
   Serial.print("Send: (R)eset, (S)lower, (F)aster");
   Serial.println();
 
+  if (fft256_1.available()) {
+    // each time new FFT data is available
+    // print it all to the Arduino Serial Monitor
+    Serial.print("FFT: ");
+    for (int i=0; i<40; i++) {
+      int n = fft256_1.read(i);
+      if (n >= 0.01) {
+        Serial.print(n);
+        Serial.print(" ");
+      } else {
+        Serial.print("  -  "); // don't print "0.00"
+      }
+    }
+    Serial.println();
+  }
   // very simple timing   :-)
   delay(speed);
 

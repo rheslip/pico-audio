@@ -2,6 +2,13 @@
 #include <Adafruit_TinyUSB.h>
 #include <pico-audio.h>
 
+// I2S pins for ADC and DAC
+#define MCLK 11
+#define BCLK 12
+#define WS 13  // this will always be 1 pin above BCLK - can't change it
+#define I2S_DATA 14  // Out of Pico to DAC
+#define I2S_DATAIN 15  // into Pico from ADC
+
 // GUItool: begin automatically generated code
 AudioSynthSimpleDrum     drum2;          //xy=399,244
 AudioSynthSimpleDrum     drum3;          //xy=424,310
@@ -62,7 +69,7 @@ void setup() {
 
   // AudioInterrupts();
 
-  i2s1.begin();
+  i2s1.begin((BCLK,WS,I2S_DATA));
 
 }
 

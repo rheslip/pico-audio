@@ -67,11 +67,13 @@
 
 #ifndef AUDIO_SAMPLE_RATE_EXACT
 //#define AUDIO_SAMPLE_RATE_EXACT 96000
-#define AUDIO_SAMPLE_RATE_EXACT 44100.0f  // RH 48k consumes approx half the CPU
+#define AUDIO_SAMPLE_RATE_EXACT 48000.0f  // RH 48k consumes approx half the CPU
+//#define AUDIO_SAMPLE_RATE_EXACT 22050.0f  // RH even less CPU
 #endif
 
 //#define AUDIO_SAMPLE_RATE 96000
-#define AUDIO_SAMPLE_RATE 44100  
+#define AUDIO_SAMPLE_RATE 48000  // RH for some reason 44100 will not work with the PCM1808 with 32 bits/sample
+//#define AUDIO_SAMPLE_RATE 22050 
 
 #define noAUDIO_DEBUG_CLASS // disable this class by default
 

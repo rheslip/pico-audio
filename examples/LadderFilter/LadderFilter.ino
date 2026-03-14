@@ -11,6 +11,20 @@
 #include <Adafruit_TinyUSB.h>
 #include <pico-audio.h>
 
+/*
+// I2S pins for DAC
+#define BCLK 13
+#define WS 14  // this will always be 1 pin above BCLK - can't change it
+#define I2S_DATA 15
+*/
+
+// for 2HPico DSP board
+#define BCLK  12
+#define WS    13
+#define MCLK  11
+#define I2S_DATA_OUT  14
+#define I2S_DATA_IN  15
+
 AudioSynthWaveform waveform1;
 AudioSynthWaveform waveform2;
 AudioSynthWaveform waveform3;
@@ -35,20 +49,21 @@ AudioConnection patchCord8(filter1, 0, i2s1, 1);
 
 void setup()
 {
-  Serial.begin();
+  Serial.begin(115200);
   AudioMemory(10);
   //  sgtl5000_1.enable();
   //  sgtl5000_1.volume(0.6);
-  i2s1.begin();
+ // i2s1.begin(BCLK,WS,I2S_DATA_OUT);
+  i2s1.begin(BCLK,WS,I2S_DATA_OUT,I2S_DATA_IN,MCLK);
   filter1.resonance(0.55);    // "lfo2" waveform overrides this setting
   filter1.frequency(800);     // "lfo1" modifies this 800 Hz setting
   filter1.octaveControl(2.6); // up 2.6 octaves (4850 Hz) & down 2.6 octaves (132 Hz)
   waveform1.frequency(50);
   waveform2.frequency(100.1);
   waveform3.frequency(150.3);
-  waveform1.amplitude(0.3);
-  waveform2.amplitude(0.3);
-  waveform3.amplitude(0.3);
+  waveform1.amplitude(0.1);
+  waveform2.amplitude(0.1);
+  waveform3.amplitude(0.1);
   waveform1.begin(WAVEFORM_BANDLIMIT_SAWTOOTH);
   waveform2.begin(WAVEFORM_BANDLIMIT_SAWTOOTH);
   waveform3.begin(WAVEFORM_BANDLIMIT_SAWTOOTH);

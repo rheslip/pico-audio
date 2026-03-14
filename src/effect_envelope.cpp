@@ -56,18 +56,21 @@ void AudioEffectEnvelope::noteOn(void)
 		count = release_forced_count;
 		inc_hires = (-mult_hires) / (int32_t)count;
 	}
-	__enable_irq();
+	interrupts();
+//	__enable_irq();
 }
 
 void AudioEffectEnvelope::noteOff(void)
 {
-	__disable_irq();
+//	__disable_irq();
+	noInterrupts();
 	if (state != STATE_RELEASE && state != STATE_IDLE && state != STATE_FORCED) {
 		state = STATE_RELEASE;
 		count = release_count;
 		inc_hires = (-mult_hires) / (int32_t)count;
 	}
-	__enable_irq();
+//	__enable_irq();
+	interrupts();
 }
 
 void AudioEffectEnvelope::update(void)
@@ -77,18 +80,15 @@ void AudioEffectEnvelope::update(void)
 	uint32_t sample12, sample34, sample56, sample78, tmp1, tmp2;
 
 	block = receiveWritable();
-	if (block)
-	{
-		if (state == STATE_IDLE) {
-			AudioStream::release(block);
-			return;
-		}
-		p = (uint32_t *)(block->data);
+
+	if (!block) return;
+	if (state == STATE_IDLE) {
+		AudioStream::release(block);
+		return;
 	}
-	else
-		p = NULL;
-	
+	p = (uint32_t *)(block->data);
 	end = p + AUDIO_BLOCK_SAMPLES/2;
+	
 
 	// need to run the envelope process even with silent data, or
 	// it gets stuck and never goes idle:

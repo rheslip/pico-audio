@@ -2,7 +2,9 @@
 #include <Arduino.h>
 #include "utility/dspinst.h"
 #include "AudioStream.h"
+#include "AudioInputI2S.h"
 #include "AudioOutputI2S.h"
+#include "AudioOutputPT8211.h"
 
 #include "analyze_fft256.h" // FFT lib doesn't seem to work on Pico 2 - requires M4 core?
 #include "analyze_fft1024.h"
@@ -22,6 +24,8 @@
 #include "effect_midside.h"
 #include "effect_reverb.h"
 #include "effect_freeverb.h"
+#include "effect_platervbstereo.h" // not working on Pico as of March 11 2026
+#include "effect_reverbsc_i16.h"
 #include "effect_waveshaper.h"
 #include "effect_granular.h"
 #include "effect_combine.h"

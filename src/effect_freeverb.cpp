@@ -129,7 +129,7 @@ static const audio_block_t zeroblock = {
 
 void AudioEffectFreeverb::update()
 {
-#if defined(__ARM_ARCH_7EM__)
+//#if defined(__ARM_ARCH_7EM__)
 	const audio_block_t *block;
 	audio_block_t *outblock;
 	int i;
@@ -226,11 +226,11 @@ void AudioEffectFreeverb::update()
 	release(outblock);
 	if (block != &zeroblock) release((audio_block_t *)block);
 
-#elif defined(KINETISL)
-	audio_block_t *block;
-	block = receiveReadOnly(0);
-	if (block) release(block);
-#endif
+//#elif defined(KINETISL)
+//	audio_block_t *block;
+//	block = receiveReadOnly(0);
+//	if (block) release(block);
+//#endif
 }
 
 
@@ -307,7 +307,7 @@ AudioEffectFreeverbStereo::AudioEffectFreeverbStereo() : AudioStream(1, inputQue
 
 void AudioEffectFreeverbStereo::update()
 {
-#if defined(__ARM_ARCH_7EM__)
+//#if defined(__ARM_ARCH_7EM__)
 	const audio_block_t *block;
 	audio_block_t *outblockL;
 	audio_block_t *outblockR;
@@ -482,11 +482,11 @@ void AudioEffectFreeverbStereo::update()
 	release(outblockR);
 	if (block != &zeroblock) release((audio_block_t *)block);
 
-#elif defined(KINETISL)
-	audio_block_t *block;
-	block = receiveReadOnly(0);
-	if (block) release(block);
-#endif
+//#elif defined(KINETISL)
+//	audio_block_t *block;
+//	block = receiveReadOnly(0);
+//	if (block) release(block);
+//#endif
 }
 
 
